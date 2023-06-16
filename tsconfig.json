@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2020",
     "lib": ["DOM", "DOM.Iterable", "ES2020"],
-    "module": "es2022",
+    "module": "Node16",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "allowJs": true,
