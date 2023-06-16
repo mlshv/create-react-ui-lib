@@ -89,18 +89,12 @@ export const scaffoldProject = async ({
 
   fs.copySync(srcDir, projectDir)
 
-  renameDotfiles(projectDir)
+  fs.renameSync(path.join(projectDir, '_gitignore'), path.join(projectDir, '.gitignore'))
   replaceUmdNamespace(projectDir, umdNamespace)
 
   const scaffoldedName = projectName === '.' ? 'App' : chalk.cyan.bold(projectName)
 
   spinner.succeed(`${scaffoldedName} ${chalk.green('scaffolded successfully!')}\n`)
-}
-
-const renameDotfiles = (projectDir: string) => {
-  ;['_gitignore', '_prettierrc'].forEach((file) => {
-    fs.renameSync(path.join(projectDir, file), path.join(projectDir, `.${file.slice(1)}`))
-  })
 }
 
 const replaceUmdNamespace = (projectDir: string, umdNamespace: string) => {
