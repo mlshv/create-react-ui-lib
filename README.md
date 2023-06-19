@@ -1,5 +1,7 @@
 # Create React UI Lib
 
+[![npm version](https://badge.fury.io/js/create-react-ui-lib.svg)](https://www.npmjs.com/package/create-react-ui-lib)
+
 A CLI tool that bootstraps simple [Vite](https://vitejs.dev/) template for painless [React](https://reactjs.org/) UI library development.
 
 - Unopinionated: no default styling, ESLint, pre-commit hooks — bring your own stuff if you need it.
