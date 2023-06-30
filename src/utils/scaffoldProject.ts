@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import deepmerge from 'deepmerge'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import ora from 'ora'
@@ -12,6 +13,7 @@ export const scaffoldProject = async ({
   projectName,
   umdNamespace,
   projectDir,
+  docsEngine,
   pkgManager,
   noInstall,
 }: InstallerOptions) => {
@@ -57,6 +59,7 @@ export const scaffoldProject = async ({
         ],
         default: 'abort',
       })
+
       if (overwriteDir === 'abort') {
         spinner.fail('Aborting installation...')
         process.exit(1)
@@ -92,6 +95,8 @@ export const scaffoldProject = async ({
   fs.renameSync(path.join(projectDir, '_gitignore'), path.join(projectDir, '.gitignore'))
   replaceUmdNamespace(projectDir, umdNamespace)
 
+  handleFileContentVariations(projectDir, { docsEngine })
+
   const scaffoldedName = projectName === '.' ? 'App' : chalk.cyan.bold(projectName)
 
   spinner.succeed(`${scaffoldedName} ${chalk.green('scaffolded successfully!')}\n`)
@@ -103,4 +108,62 @@ const replaceUmdNamespace = (projectDir: string, umdNamespace: string) => {
   const result = data.replace(DEFAULT_UMD_NAMESPACE, umdNamespace)
 
   fs.writeFileSync(viteConfigPath, result, 'utf8')
+}
+
+const processDirectory = (dirPath: string, variations: Record<string, string>) => {
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true })
+
+  entries.forEach((entry) => {
+    if (!entry.isDirectory()) {
+      return
+    }
+
+    const fullPath = path.join(dirPath, entry.name)
+
+    if (entry.name.startsWith('_')) {
+      const subFolders = fs.readdirSync(fullPath, { withFileTypes: true })
+
+      subFolders.forEach((subFolder) => {
+        const variationFileBase = variations[subFolder.name]
+
+        if (!variationFileBase || !subFolder.isDirectory()) return
+
+        const variationFolderPath = path.join(fullPath, subFolder.name)
+        const variationFiles = fs.readdirSync(variationFolderPath)
+
+        const fileName = variationFiles.find((fileName) => fileName.startsWith(variationFileBase))
+
+        if (!fileName) return
+
+        const variationFilePath = path.join(variationFolderPath, fileName)
+        const newFilePath = path.join(dirPath, entry.name.replace('_', ''))
+
+        const isDirectory = fs.lstatSync(variationFilePath).isDirectory()
+
+        if (isDirectory) {
+          fs.copySync(variationFilePath, newFilePath)
+        } else if (path.extname(fileName) === '.json' && fs.existsSync(newFilePath)) {
+          const existingContent = fs.readFileSync(newFilePath, 'utf-8')
+          const variationContent = fs.readFileSync(variationFilePath, 'utf-8')
+          const mergedContent = JSON.stringify(
+            deepmerge(JSON.parse(existingContent), JSON.parse(variationContent)),
+            null,
+            2,
+          )
+          fs.writeFileSync(newFilePath, mergedContent)
+        } else {
+          const variationContent = fs.readFileSync(variationFilePath)
+          fs.writeFileSync(newFilePath, variationContent)
+        }
+      })
+
+      fs.rmdirSync(fullPath, { recursive: true })
+    } else {
+      processDirectory(fullPath, variations) // recursive call
+    }
+  })
+}
+
+const handleFileContentVariations = (projectDir: string, variations: Record<string, string>) => {
+  processDirectory(projectDir, variations)
 }

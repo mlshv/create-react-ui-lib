@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "ladle serve",
+    "build-docs": "ladle build -o docs && touch ./docs/.nojekyll"
+  },
+  "devDependencies": {
+    "@ladle/react": "^2.15.0"
+  }
+}

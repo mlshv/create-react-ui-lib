@@ -9,6 +9,7 @@ const main = async () => {
   const {
     appName,
     umdNamespace,
+    docsEngine,
     flags: { noGit, noInstall },
   } = await runCli()
 
@@ -18,6 +19,7 @@ const main = async () => {
   const projectDir = await createProject({
     projectName: appDir,
     umdNamespace,
+    docsEngine,
     noInstall,
   })
 

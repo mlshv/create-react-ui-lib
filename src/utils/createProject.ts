@@ -1,14 +1,17 @@
 import path from 'path'
+
+import { DocsEngine } from '~/cli/types'
 import { scaffoldProject } from '~/utils'
 import { getUserPkgManager } from '~/utils'
 
-interface CreateProjectOptions {
+type CreateProjectOptions = {
   projectName: string
   umdNamespace: string
   noInstall: boolean
+  docsEngine: DocsEngine
 }
 
-export const createProject = async ({ projectName, umdNamespace, noInstall }: CreateProjectOptions) => {
+export const createProject = async ({ projectName, umdNamespace, docsEngine, noInstall }: CreateProjectOptions) => {
   const pkgManager = getUserPkgManager()
   const projectDir = path.resolve(process.cwd(), projectName)
 
@@ -16,6 +19,7 @@ export const createProject = async ({ projectName, umdNamespace, noInstall }: Cr
     projectName,
     umdNamespace,
     projectDir,
+    docsEngine,
     pkgManager,
     noInstall,
   })
