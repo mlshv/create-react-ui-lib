@@ -14,6 +14,7 @@ export const scaffoldProject = async ({
   umdNamespace,
   projectDir,
   docsEngine,
+  eslint,
   pkgManager,
   noInstall,
 }: InstallerOptions) => {
@@ -95,7 +96,7 @@ export const scaffoldProject = async ({
   fs.renameSync(path.join(projectDir, '_gitignore'), path.join(projectDir, '.gitignore'))
   replaceUmdNamespace(projectDir, umdNamespace)
 
-  handleFileContentVariations(projectDir, { docsEngine })
+  handleFileContentVariations(projectDir, { docsEngine, eslint: eslint ? 'yes' : 'no' })
 
   const scaffoldedName = projectName === '.' ? 'App' : chalk.cyan.bold(projectName)
 

@@ -7,11 +7,18 @@ import { getUserPkgManager } from '~/utils'
 type CreateProjectOptions = {
   projectName: string
   umdNamespace: string
+  eslint: boolean
   noInstall: boolean
   docsEngine: DocsEngine
 }
 
-export const createProject = async ({ projectName, umdNamespace, docsEngine, noInstall }: CreateProjectOptions) => {
+export const createProject = async ({
+  projectName,
+  umdNamespace,
+  docsEngine,
+  eslint,
+  noInstall,
+}: CreateProjectOptions) => {
   const pkgManager = getUserPkgManager()
   const projectDir = path.resolve(process.cwd(), projectName)
 
@@ -20,6 +27,7 @@ export const createProject = async ({ projectName, umdNamespace, docsEngine, noI
     umdNamespace,
     projectDir,
     docsEngine,
+    eslint,
     pkgManager,
     noInstall,
   })

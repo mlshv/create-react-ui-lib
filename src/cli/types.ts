@@ -8,5 +8,6 @@ export type InstallerOptions = {
   pkgManager: PackageManager
   noInstall: boolean
   docsEngine: DocsEngine
+  eslint: boolean
   projectName?: string
 }

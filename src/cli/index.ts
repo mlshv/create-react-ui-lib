@@ -15,12 +15,14 @@ type CliResults = {
   umdNamespace: string
   flags: CliFlags
   docsEngine: 'storybook' | 'ladle'
+  eslint: boolean
 }
 
 const defaultOptions: CliResults = {
   appName: DEFAULT_LIBRARY_NAME,
   umdNamespace: DEFAULT_UMD_NAMESPACE,
   docsEngine: DEFAULT_DOCS_ENGINE,
+  eslint: true,
   flags: {
     noGit: false,
     noInstall: false,
@@ -55,8 +57,8 @@ export const runCli = async () => {
     }
 
     cliResults.umdNamespace = await promptUmdNamespace()
-
     cliResults.docsEngine = await promptDocsEngine()
+    cliResults.eslint = await promptEslint()
 
     if (!cliResults.flags.noGit) {
       cliResults.flags.noGit = !(await promptGit())
@@ -119,6 +121,17 @@ const promptDocsEngine = async (): Promise<'storybook' | 'ladle'> => {
   })
 
   return docsEngine
+}
+
+const promptEslint = async (): Promise<boolean> => {
+  const { eslint } = await inquirer.prompt<{ eslint: boolean }>({
+    name: 'eslint',
+    type: 'confirm',
+    message: 'Would you like to use ESLint?',
+    default: true,
+  })
+
+  return eslint
 }
 
 const promptInstall = async (): Promise<boolean> => {
