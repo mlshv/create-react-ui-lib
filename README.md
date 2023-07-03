@@ -5,7 +5,7 @@ A CLI tool that bootstraps simple [Vite](https://vitejs.dev/) template for painl
 - Unopinionated: no default styling, mandatory ESLint, pre-commit hooks — bring your own stuff if you need it.
 - Type definitions are extracted using [vite-plugin-dts](https://github.com/qmhc/vite-plugin-dts).
 - Bundles to ES and UMD modules, generates sourcemaps.
-- Uses [Storybook](https://storybook.js.org/) for docs which are easily deployed as GitHub pages.
+- Uses [Storybook](https://storybook.js.org/) or [Ladle](https://ladle.dev/) for docs which are easily deployed as GitHub pages.
 - Optional ESLint with recommended settings for each of these plugins: [typescript](https://typescript-eslint.io/), [prettier](https://github.com/prettier/eslint-plugin-prettier), [react](https://github.com/jsx-eslint/eslint-plugin-react), [react-hooks](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks), [jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 
 ## Getting started
