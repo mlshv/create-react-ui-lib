@@ -1,6 +1,6 @@
 {
   "name": "create-react-ui-lib",
-  "version": "1.1.0-rc.0",
+  "version": "1.1.0-rc.1",
   "description": "A CLI tool to spin up React.js UI library development",
   "main": "index.js",
   "type": "module",
