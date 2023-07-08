@@ -1,6 +1,6 @@
 {
   "name": "create-react-ui-lib",
-  "version": "1.0.4",
+  "version": "1.1.0-rc.2",
   "description": "A CLI tool to spin up React.js UI library development",
   "main": "index.js",
   "type": "module",
@@ -42,6 +42,7 @@
   "dependencies": {
     "chalk": "^5.2.0",
     "commander": "^11.0.0",
+    "deepmerge": "^4.3.1",
     "execa": "^7.1.1",
     "fs-extra": "^11.1.1",
     "inquirer": "^9.2.7",

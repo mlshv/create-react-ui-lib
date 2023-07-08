@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { Command } from 'commander'
 import inquirer from 'inquirer'
 import { getVersion, validateAppName, getUserPkgManager, logger, validateUmdNamespace } from '~/utils'
-import { DEFAULT_LIBRARY_NAME, DEFAULT_UMD_NAMESPACE } from './constants'
+import { DEFAULT_LIBRARY_NAME, DEFAULT_UMD_NAMESPACE, DEFAULT_DOCS_ENGINE } from './constants'
 
 type CliFlags = {
   noGit: boolean
@@ -14,11 +14,15 @@ type CliResults = {
   appName: string
   umdNamespace: string
   flags: CliFlags
+  docsEngine: 'storybook' | 'ladle'
+  eslint: boolean
 }
 
 const defaultOptions: CliResults = {
   appName: DEFAULT_LIBRARY_NAME,
   umdNamespace: DEFAULT_UMD_NAMESPACE,
+  docsEngine: DEFAULT_DOCS_ENGINE,
+  eslint: true,
   flags: {
     noGit: false,
     noInstall: false,
@@ -53,6 +57,8 @@ export const runCli = async () => {
     }
 
     cliResults.umdNamespace = await promptUmdNamespace()
+    cliResults.docsEngine = await promptDocsEngine()
+    cliResults.eslint = await promptEslint()
 
     if (!cliResults.flags.noGit) {
       cliResults.flags.noGit = !(await promptGit())
@@ -94,6 +100,38 @@ const promptUmdNamespace = async (): Promise<string> => {
   })
 
   return umdNamespace
+}
+
+const promptDocsEngine = async (): Promise<'storybook' | 'ladle'> => {
+  const { docsEngine } = await inquirer.prompt<Pick<CliResults, 'docsEngine'>>({
+    name: 'docsEngine',
+    type: 'list',
+    message: 'Choose a documentation engine:',
+    choices: [
+      {
+        name: 'Storybook (https://storybook.js.org/)',
+        value: 'storybook',
+      },
+      {
+        name: 'Ladle (https://ladle.dev/)',
+        value: 'ladle',
+      },
+    ],
+    default: DEFAULT_DOCS_ENGINE,
+  })
+
+  return docsEngine
+}
+
+const promptEslint = async (): Promise<boolean> => {
+  const { eslint } = await inquirer.prompt<{ eslint: boolean }>({
+    name: 'eslint',
+    type: 'confirm',
+    message: 'Would you like to use ESLint?',
+    default: true,
+  })
+
+  return eslint
 }
 
 const promptInstall = async (): Promise<boolean> => {

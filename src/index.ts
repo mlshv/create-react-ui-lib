@@ -9,6 +9,8 @@ const main = async () => {
   const {
     appName,
     umdNamespace,
+    docsEngine,
+    eslint,
     flags: { noGit, noInstall },
   } = await runCli()
 
@@ -18,7 +20,9 @@ const main = async () => {
   const projectDir = await createProject({
     projectName: appDir,
     umdNamespace,
+    docsEngine,
     noInstall,
+    eslint,
   })
 
   const pkgJson = fs.readJSONSync(path.join(projectDir, 'package.json'))
