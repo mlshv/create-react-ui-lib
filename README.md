@@ -10,6 +10,11 @@ A CLI tool that bootstraps simple [Vite](https://vitejs.dev/) template for painl
 - Uses [Storybook](https://storybook.js.org/) or [Ladle](https://ladle.dev/) for docs which are easily deployed as GitHub pages.
 - Optional ESLint with recommended settings for each of these plugins: [typescript](https://typescript-eslint.io/), [prettier](https://github.com/prettier/eslint-plugin-prettier), [react](https://github.com/jsx-eslint/eslint-plugin-react), [react-hooks](https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks), [jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y).
 
+## Motivation
+
+[Create React UI Lib: Component Library Speedrun](https://dev.to/topcat/create-react-ui-lib-component-library-speedrun-25bp) 
+
+
 ## Getting started
 
 Run the command:
@@ -24,7 +29,7 @@ npm create react-ui-lib@latest
 2. Open `package.json`, update package description, author, repository, remove `"private": true`.
 3. Run `npm publish`
 
-## Publishing Storybook to GitHub pages
+## Publishing Storybook / Ladle to GitHub pages
 
 Storybook static is built to `docs` directory which is under git. To publish it to GitHub Pages do this:
 
